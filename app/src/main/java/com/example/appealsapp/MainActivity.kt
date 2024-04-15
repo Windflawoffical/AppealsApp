@@ -3,6 +3,7 @@ package com.example.appealsapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.NavHost
@@ -13,9 +14,10 @@ import com.example.appealsapp.features.feature_appeal.presentation.appeals.Appea
 import com.example.appealsapp.features.feature_user.presentation.sign_in.SignInScreen
 import com.example.appealsapp.features.feature_user.presentation.sign_up.SignUpScreen
 import com.example.appealsapp.ui.theme.AppealsAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

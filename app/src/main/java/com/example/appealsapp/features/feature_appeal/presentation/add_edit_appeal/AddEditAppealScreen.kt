@@ -18,10 +18,5 @@ fun AddEditAppealScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(text = "AddEditAppealScreen")
-        Button(
-            onClick = { navController.navigate("") }
-        ) {
-            Text(text = "Next Screen")
-        }
     }
 }
