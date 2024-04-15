@@ -20,7 +20,7 @@ class AppealServiceImpl(
     }
 
     override suspend fun getAppealById(id: Int): AppealResponse? {
-        return client.get { url(AppealHttpRoutes.GET_APPEAL_BY_ID) }
+        return client.get { url(AppealHttpRoutes.GET_APPEAL_BY_ID + id) }
     }
 
     override suspend fun createAppeal(appealRequest: AppealRequest) {
@@ -33,7 +33,7 @@ class AppealServiceImpl(
 
     override suspend fun updateAppeal(id: Int, appealRequest: AppealRequest) {
         return client.put {
-            url(AppealHttpRoutes.UPDATE_APPEAL_BY_ID)
+            url(AppealHttpRoutes.UPDATE_APPEAL_BY_ID + id)
             contentType(ContentType.Application.Json)
             body = appealRequest}
 

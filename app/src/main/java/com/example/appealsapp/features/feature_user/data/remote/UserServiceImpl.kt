@@ -18,8 +18,8 @@ class UserServiceImpl (
         return client.get { url(UserHttpRoutes.GET_USERS) }
     }
 
-    override suspend fun getUserById(id: Int): AppealResponse? {
-        return client.get { url(UserHttpRoutes.GET_USER_BY_ID) }
+    override suspend fun getUserById(id: Int): UserResponse? {
+        return client.get { url(UserHttpRoutes.GET_USER_BY_ID + id) }
     }
 
     override suspend fun createAppeal(appealRequest: AppealRequest) {
