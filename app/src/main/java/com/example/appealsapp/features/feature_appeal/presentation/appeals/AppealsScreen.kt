@@ -51,7 +51,7 @@ fun AppealsScreen(
         Button(
             onClick = { navController.navigate(Screen.AddEditAppealScreen.route) }
         ) {
-            Text(text = "Next Screen")
+            Text(text = "Add_edit appeals")
         }
     }
 }

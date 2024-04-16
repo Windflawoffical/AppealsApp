@@ -13,33 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val userService: UserService) : ViewModel () {
-
-    private val _state = mutableStateOf(UserState())
-    val state: State<UserState> = _state
-
-    init {
-        get_users()
-    }
-
-    fun get_users() {
-        viewModelScope.launch {
-            try {
-                _state.value = state.value.copy(isLoading = true)
-                _state.value = state.value.copy(
-                    users = userService.getUsers(),
-                    isLoading = false
-                )
-            } catch(e: Exception) {
-                Log.e("UsersViewModel", "getUsers: ", e)
-                _state.value = state.value.copy(isLoading = false)
-            }
-        }
-    }
-
-    data class UserState(
-        val users: List<UserResponse>? = null,
-        val isLoading: Boolean = false
-    )
+class SignUpViewModel @Inject constructor(private val userService: UserService) : ViewModel ()
+{
 
 }
