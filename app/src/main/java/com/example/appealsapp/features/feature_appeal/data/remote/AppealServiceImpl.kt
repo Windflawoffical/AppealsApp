@@ -41,7 +41,7 @@ class AppealServiceImpl (
 
     }
 
-    override suspend fun getAppealsByUserId(id: Int) {
+    override suspend fun getAppealsByUserId(id: Int): List<AppealResponse> {
         return client.get {url(AppealHttpRoutes.GET_APPEALS_BY_USER_ID + id)}
     }
 

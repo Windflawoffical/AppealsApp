@@ -28,7 +28,7 @@ class AppealsViewModel @Inject constructor(private val appealService: AppealServ
             try {
                 _state.value = state.value.copy(isLoading = true)
                 _state.value = state.value.copy(
-                    appeals = appealService.getAppeals(),
+                    appeals = appealService.getAppealsByUserId(1),
                     isLoading = false
                 )
             } catch(e: Exception) {
