@@ -7,5 +7,6 @@ object AppealHttpRoutes {
     const val GET_APPEALS = "$BASE_URL/get_all"
     const val CREATE_APPEAL = "$BASE_URL/create"
     const val UPDATE_APPEAL_BY_ID = "$BASE_URL/"
+    const val GET_APPEALS_BY_USER_ID = "$BASE_URL/get_all_by_user_id/"
 
 }

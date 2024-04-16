@@ -19,4 +19,6 @@ interface AppealService {
 
     suspend fun updateAppeal(id: Int, appealRequest: AppealRequest)
 
+    suspend fun getAppealsByUserId(id: Int)
+
 }
