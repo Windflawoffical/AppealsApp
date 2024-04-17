@@ -3,12 +3,13 @@ package com.example.appealsapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.appealsapp.features.feature_appeal.presentation.SharedViewModel
 import com.example.appealsapp.features.feature_appeal.presentation.add_edit_appeal.AddEditAppealScreen
 import com.example.appealsapp.features.feature_appeal.presentation.appeals.AppealsScreen
 import com.example.appealsapp.features.feature_user.presentation.sign_in.SignInScreen
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colorScheme.background)
                 {
                     val navController = rememberNavController()
+                    val sharedViewModel: SharedViewModel = viewModel()
                     NavHost(
                         navController = navController,
                         startDestination = Screen.SignInScreen.route
@@ -37,10 +39,10 @@ class MainActivity : ComponentActivity() {
                             SignUpScreen(navController = navController)
                         }
                         composable(route = Screen.AddEditAppealScreen.route) {
-                            AddEditAppealScreen(navController = navController)
+                            AddEditAppealScreen(navController = navController, sharedViewModel = sharedViewModel)
                         }
                         composable(route = Screen.AppealsScreen.route) {
-                            AppealsScreen(navController = navController)
+                            AppealsScreen(navController = navController, sharedViewModel = sharedViewModel)
                         }
                     }
                 }
