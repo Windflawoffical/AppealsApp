@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.appealsapp.Screen
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequest
 import com.example.appealsapp.ui.theme.Purple700
 
 @Composable
@@ -46,11 +47,12 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        val firstName = remember { mutableStateOf(TextFieldValue()) }
-        val secondName = remember { mutableStateOf(TextFieldValue()) }
-        val email = remember { mutableStateOf(TextFieldValue()) }
-        val username = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
+        val firstName = remember { mutableStateOf(("")) }
+        val secondName = remember { mutableStateOf(("")) }
+        val email = remember { mutableStateOf(("")) }
+        val username = remember { mutableStateOf(("")) }
+        val password = remember { mutableStateOf(("")) }
+        val userRequest = UserRequest(username.value)
 
         Text(text = "Registration", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
 
@@ -88,7 +90,9 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = { navController.navigate(Screen.SignInScreen.route) },
+                onClick = {
+                    viewModel.createUser(userRequest)
+                    navController.navigate(Screen.SignInScreen.route) },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
