@@ -33,16 +33,16 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.SignInScreen.route
                     ) {
                         composable(route = Screen.SignInScreen.route) {
-                            SignInScreen(navController = navController)
+                            SignInScreen(navController = navController, context = applicationContext)
                         }
                         composable(route = Screen.SignUpScreen.route) {
-                            SignUpScreen(navController = navController)
+                            SignUpScreen(navController = navController, context = applicationContext)
                         }
                         composable(route = Screen.AddEditAppealScreen.route) {
-                            AddEditAppealScreen(navController = navController, sharedViewModel = sharedViewModel)
+                            AddEditAppealScreen(navController = navController, sharedViewModel = sharedViewModel, context = applicationContext)
                         }
                         composable(route = Screen.AppealsScreen.route) {
-                            AppealsScreen(navController = navController, sharedViewModel = sharedViewModel)
+                            AppealsScreen(navController = navController, sharedViewModel = sharedViewModel, context = applicationContext)
                         }
                     }
                 }

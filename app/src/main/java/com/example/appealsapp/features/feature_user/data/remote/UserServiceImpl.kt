@@ -1,13 +1,16 @@
 package com.example.appealsapp.features.feature_user.data.remote
 
 import com.example.appealsapp.features.feature_appeal.data.remote.dto.AppealRequest
-import com.example.appealsapp.features.feature_appeal.data.remote.dto.AppealResponse
-import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequest
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequestSignIn
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequestSignUp
 import com.example.appealsapp.features.feature_user.data.remote.dto.UserResponse
 import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.url
+import io.ktor.client.statement.HttpStatement
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
@@ -29,10 +32,18 @@ class UserServiceImpl (
             body = appealRequest}
     }
 
-    override suspend fun createUser(userRequest: UserRequest) {
+    override suspend fun createUser(userRequestSignUp: UserRequestSignUp) {
         return client.post {
             url(UserHttpRoutes.CREATE_USER)
             contentType(ContentType.Application.Json)
-            body = userRequest}
+            body = userRequestSignUp}
+    }
+
+    override suspend fun login(userRequestSignIn: UserRequestSignIn): UserResponse? {
+        return client.post {
+            url(UserHttpRoutes.LOGIN)
+            contentType(ContentType.Application.Json)
+            body = userRequestSignIn
+            println(body)}
     }
 }

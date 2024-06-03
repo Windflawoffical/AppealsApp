@@ -1,5 +1,8 @@
 package com.example.appealsapp.di
 
+import android.content.Context
+import com.example.appealsapp.datastore.DataStoreRepository
+import com.example.appealsapp.datastore.DataStoreRepositoryImpl
 import com.example.appealsapp.features.feature_appeal.data.remote.AppealService
 import com.example.appealsapp.features.feature_appeal.data.remote.AppealServiceImpl
 import com.example.appealsapp.features.feature_user.data.remote.UserService
@@ -7,6 +10,7 @@ import com.example.appealsapp.features.feature_user.data.remote.UserServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -34,16 +38,18 @@ class AppModule {
             }
         }
     }
-
     @Provides
     @Singleton
     fun provideAppealService(client: HttpClient): AppealService {
         return AppealServiceImpl(client)
     }
-
     @Provides
     @Singleton
     fun provideUserService(client: HttpClient): UserService {
         return UserServiceImpl(client)
     }
+
+    @Provides
+    @Singleton
+    fun providesDatastoreRepo (@ApplicationContext context: Context): DataStoreRepository = DataStoreRepositoryImpl(context)
 }

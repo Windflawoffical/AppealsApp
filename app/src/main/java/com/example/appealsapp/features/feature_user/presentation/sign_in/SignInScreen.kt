@@ -1,5 +1,8 @@
 package com.example.appealsapp.features.feature_user.presentation.sign_in
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,19 +36,25 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.appealsapp.Screen
-import com.example.appealsapp.features.feature_appeal.presentation.appeals.AppealsViewModel
-import com.example.appealsapp.features.feature_user.presentation.sign_up.SignUpViewModel
+import com.example.appealsapp.features.feature_user.data.remote.UserServiceImpl
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequestSignIn
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserResponse
 import com.example.appealsapp.ui.theme.Purple700
+import io.ktor.client.HttpClient
+import io.ktor.client.request.request
+import io.ktor.client.statement.HttpResponse
 
 
 @Composable
 fun SignInScreen(
     navController: NavController,
-    viewModel: SignInViewModel = hiltViewModel())
+    viewModel: SignInViewModel = hiltViewModel(),
+    context: Context)
 {
+
     Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
-            text = AnnotatedString("Sign up here"),
+            text = AnnotatedString("Нет аккаунта?\nЗарегистрируйтесь!"),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(20.dp),
@@ -64,20 +73,22 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        val username = remember { mutableStateOf(TextFieldValue()) }
-        val password = remember { mutableStateOf(TextFieldValue()) }
+        val email = remember { mutableStateOf(("")) }
+        val password = remember { mutableStateOf(("")) }
 
-        Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
+        val userRequestSignIn = UserRequestSignIn(email.value, password.value)
 
-        Spacer(modifier = Modifier.height(20.dp))
-        TextField(
-            label = { Text(text = "Username") },
-            value = username.value,
-            onValueChange = { username.value = it })
+        Text(text = "Вход", style = TextStyle(fontSize = 28.sp))
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
-            label = { Text(text = "Password") },
+            label = { Text(text = "Адрес электронной почты") },
+            value = email.value,
+            onValueChange = { email.value = it })
+
+        Spacer(modifier = Modifier.height(20.dp))
+        TextField(
+            label = { Text(text = "Пароль") },
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -86,13 +97,14 @@ fun SignInScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
-                onClick = { navController.navigate(Screen.AppealsScreen.route) },
+                onClick = {
+                    viewModel.login(userRequestSignIn, navController, context) },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Login")
+                Text(text = "Войти")
             }
         }
     }

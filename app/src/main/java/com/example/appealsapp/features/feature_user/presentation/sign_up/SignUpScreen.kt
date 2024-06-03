@@ -1,18 +1,15 @@
 package com.example.appealsapp.features.feature_user.presentation.sign_up
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -21,25 +18,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.appealsapp.Screen
-import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequest
-import com.example.appealsapp.ui.theme.Purple700
+import com.example.appealsapp.features.feature_user.data.remote.dto.UserRequestSignUp
 
 @Composable
 fun SignUpScreen(
     navController: NavController,
-    viewModel: SignUpViewModel = hiltViewModel())
+    viewModel: SignUpViewModel = hiltViewModel(),
+    context: Context)
 {
     Column(
         modifier = Modifier.padding(20.dp),
@@ -48,57 +40,85 @@ fun SignUpScreen(
     ) {
 
         val firstName = remember { mutableStateOf(("")) }
-        val secondName = remember { mutableStateOf(("")) }
+        val lastName = remember { mutableStateOf(("")) }
         val email = remember { mutableStateOf(("")) }
-        val username = remember { mutableStateOf(("")) }
+        val sex = remember { mutableStateOf(("")) }
+        val phoneNumber = remember { mutableStateOf(("")) }
         val password = remember { mutableStateOf(("")) }
-        val userRequest = UserRequest(username.value)
+        val repeatPassword = remember { mutableStateOf(("")) }
 
-        Text(text = "Registration", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
+        val regex = """(\d)(\d{3})(\d{3})(\d{2})(\d{2})""".toRegex()
 
-        Spacer(modifier = Modifier.height(20.dp))
+        val userRequestSignUp = UserRequestSignUp(firstName.value,
+            lastName.value,
+            email.value,
+            sex.value,
+            regex.replace(phoneNumber.value, "+$1 $2 $3-$4-$5"),
+            password.value)
+
+        Text(text = "Регистрация", style = TextStyle(fontSize = 28.sp))
+
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            label = { Text(text = "First name") },
+            label = { Text(text = "Имя") },
             value = firstName.value,
             onValueChange = { firstName.value = it })
-
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            label = { Text(text = "Second name") },
-            value = secondName.value,
-            onValueChange = { secondName.value = it })
+            label = { Text(text = "Фамилия") },
+            value = lastName.value,
+            onValueChange = { lastName.value = it })
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            label = { Text(text = "Email") },
+            label = { Text(text = "Адрес электронной почты") },
             value = email.value,
             onValueChange = { email.value = it })
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            label = { Text(text = "Username") },
-            value = username.value,
-            onValueChange = { username.value = it })
+            label = { Text(text = "Пол") },
+            value = sex.value,
+            onValueChange = { sex.value = it })
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(
+            label = { Text(text = "Номер телефона") },
+            value = phoneNumber.value,
+            onValueChange = { phoneNumber.value = it })
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
-            label = { Text(text = "Password") },
+            label = { Text(text = "Пароль") },
             value = password.value,
             visualTransformation = PasswordVisualTransformation(),
             onValueChange = { password.value = it })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        TextField(
+            label = { Text(text = "Повторите пароль") },
+            value = repeatPassword.value,
+            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = { repeatPassword.value = it })
 
         Spacer(modifier = Modifier.height(20.dp))
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    viewModel.createUser(userRequest)
-                    navController.navigate(Screen.SignInScreen.route) },
+                    if(firstName.value != "" &&
+                        lastName.value != "" &&
+                        email.value != "" &&
+                        sex.value != "" &&
+                        phoneNumber.value != "" &&
+                        password.value != "" && password.value.length > 5 &&
+                        password.value == repeatPassword.value) {
+                        viewModel.createUser(userRequestSignUp, navController, context)
+                    } else Toast.makeText(context, "Для успешной регистрации требуется заполнить все нужные поля!", Toast.LENGTH_LONG).show()},
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text(text = "Registration")
+                Text(text = "Зарегистрироваться")
             }
         }
     }
