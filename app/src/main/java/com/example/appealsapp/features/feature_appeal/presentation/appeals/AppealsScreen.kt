@@ -64,11 +64,15 @@ fun AppealsScreen(
                             .padding(horizontal = 12.dp, vertical = 12.dp)
                             .fillMaxWidth(),
                     ) {
-                        Text(text = it.id.toString(), fontSize = 20.sp, modifier = Modifier.padding(8.dp))
-                        Spacer(modifier = Modifier.height(4.dp))
                         Text(text = it.description, fontSize = 20.sp, modifier = Modifier.padding(8.dp))
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = it.user.email, fontSize = 14.sp, modifier = Modifier.padding(8.dp))
+                        if (it.status == "ACCEPTED_FOR_WORK") {
+                            Text(text = "Принято в работу", fontSize = 14.sp, modifier = Modifier.padding(8.dp), color = Color.Magenta)
+                        } else if (it.status == "IN_WORK") {
+                            Text(text = "В работе", fontSize = 14.sp, modifier = Modifier.padding(8.dp), color = Color.Blue)
+                        } else {
+                            Text(text = "Выполнено", fontSize = 14.sp, modifier = Modifier.padding(8.dp), color = Color.Green)
+                        }
                     }
                 }
             }
