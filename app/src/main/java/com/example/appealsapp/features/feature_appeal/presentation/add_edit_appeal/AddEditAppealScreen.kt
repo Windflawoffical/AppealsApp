@@ -51,9 +51,9 @@ fun AddEditAppealScreen(
 
         val textforbutton: String
         if (sharedTitle == "" && sharedDescription == "") {
-            textforbutton = "Create appeal"
+            textforbutton = "Создать заявку"
         } else {
-            textforbutton = "Update appeal"
+            textforbutton = "Обновить заявку"
         }
 
         val dataStoreRepository = DataStoreRepositoryImpl(context)
@@ -66,14 +66,14 @@ fun AddEditAppealScreen(
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             modifier = Modifier.width(200.dp),
-            label = { Text(text = "Title") },
+            label = { Text(text = "Проблема") },
             value = title.value,
             onValueChange = { title.value = it })
 
         Spacer(modifier = Modifier.height(20.dp))
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(text = "Description") },
+            label = { Text(text = "Краткое описание") },
             value = description.value,
             onValueChange = { description.value = it })
 
