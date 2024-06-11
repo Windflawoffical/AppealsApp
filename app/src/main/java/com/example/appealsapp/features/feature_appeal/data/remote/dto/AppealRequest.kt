@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppealRequest(
+    @SerialName("title")
+    val title: String,
     @SerialName("description")
     val description: String,
     @SerialName("user")

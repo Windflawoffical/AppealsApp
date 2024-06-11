@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AppealResponse(
     val id: Long,
+    val title: String,
     val description: String,
     val user: UserResponse,
     val status: String

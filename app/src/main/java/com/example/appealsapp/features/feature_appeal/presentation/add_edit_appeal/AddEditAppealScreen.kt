@@ -82,7 +82,7 @@ fun AddEditAppealScreen(
             modifier = Modifier.padding(20.dp)
         )
 
-        {val appealRequest = myuserRequestCreateAppeal?.let { AppealRequest(description.value, it) }
+        {val appealRequest = myuserRequestCreateAppeal?.let { AppealRequest(title.value, description.value, it) }
             Button(
                 onClick = { println(appealRequest)
                     appealRequest?.let { viewModel.create_appeal(it, navController, context) } },

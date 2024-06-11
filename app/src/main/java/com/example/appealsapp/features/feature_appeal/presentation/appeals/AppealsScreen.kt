@@ -64,6 +64,8 @@ fun AppealsScreen(
                             .padding(horizontal = 12.dp, vertical = 12.dp)
                             .fillMaxWidth(),
                     ) {
+                        Text(text = it.title, fontSize = 20.sp, modifier = Modifier.padding(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         Text(text = it.description, fontSize = 20.sp, modifier = Modifier.padding(8.dp))
                         Spacer(modifier = Modifier.height(4.dp))
                         if (it.status == "ACCEPTED_FOR_WORK") {
